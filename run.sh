@@ -40,6 +40,7 @@ http {
             }
             root /tmp;
             add_header  Cache-Control no-cache;
+            add_header  Access-Control-Allow-Origin *;
         }
 
         location /on_publish {
