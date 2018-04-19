@@ -32,6 +32,8 @@ http {
     server {
         listen          8080;
         server_name     localhost;
+        
+        on_connect ${NOTIFY_URL};
 
         location /hls {
             types {
@@ -91,7 +93,13 @@ cat >>${NGINX_CONFIG_FILE} <<!EOF
         application ${STREAM_NAME} {
             live on;
             record off;
-            on_publish http://localhost:8080/on_publish;
+            on_play ${NOTIFY_URL};
+            on_publish ${NOTIFY_URL};
+            on_done ${NOTIFY_URL};
+            on_play_done ${NOTIFY_URL};
+            on_publish_done ${NOTIFY_URL};
+            on_record_done ${NOTIFY_URL};
+            on_update ${NOTIFY_URL};
 !EOF
 if [ "${HLS}" = "true" ]; then
 cat >>${NGINX_CONFIG_FILE} <<!EOF
