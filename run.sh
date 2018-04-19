@@ -135,5 +135,5 @@ else
 fi
 
 echo "Starting server..."
-/opt/openresty/sbin/openresty -g "daemon off;"
+/opt/openresty/nginx/sbin/nginx -g "daemon off;"
 
