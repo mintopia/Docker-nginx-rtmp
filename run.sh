@@ -32,8 +32,6 @@ http {
     server {
         listen          8080;
         server_name     localhost;
-        
-        on_connect ${NOTIFY_URL};
 
         location /hls {
             types {
@@ -75,6 +73,8 @@ rtmp {
     server {
         listen 1935;
         chunk_size 4096;
+        
+        on_connect ${NOTIFY_URL};
 !EOF
 
 if [ "x${RTMP_PUSH_URLS}" = "x" ]; then
