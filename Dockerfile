@@ -1,7 +1,7 @@
 FROM alpine:latest as builder
-MAINTAINER Jason Rivers <docker@jasonrivers.co.uk>
+MAINTAINER Jessica Smith <jess@mintopia.net>
 
-ARG NGINX_VERSION=1.13.9
+ARG OPENRESTY_VERSION=1.13.6.1
 ARG NGINX_RTMP_VERSION=1.2.1
 
 
@@ -33,20 +33,21 @@ RUN	apk update		&&	\
 		zlib-dev		\
 		openssl-dev		\
 		curl			\
-		make
+		make            \
+		perl
 
 
 RUN	cd /tmp/									&&	\
-	curl --remote-name http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz			&&	\
-	git clone https://github.com/arut/nginx-rtmp-module.git -b v${NGINX_RTMP_VERSION}
-
-RUN	cd /tmp										&&	\
-	tar xzf nginx-${NGINX_VERSION}.tar.gz						&&	\
-	cd nginx-${NGINX_VERSION}							&&	\
+	curl --remote-name https://openresty.org/download/openresty-${OPENRESTY_VERSION}.tar.gz			&&	\
+	git clone https://github.com/arut/nginx-rtmp-module.git -b v${NGINX_RTMP_VERSION} 
+RUN cd /tmp/ && \
+	tar xzf openresty-${OPENRESTY_VERSION}.tar.gz						&&	\
+	cd openresty-${OPENRESTY_VERSION}							&&	\
 	./configure										\
-		--prefix=/opt/nginx								\
-		--with-http_ssl_module								\
-		--add-module=../nginx-rtmp-module					&&	\
+		--prefix=/opt/openresty								\
+		--with-pcre-jit \
+		--with-ipv6 \
+		--add-module=../nginx-rtmp-module 					&&	\
 	make										&&	\
 	make install
 
@@ -58,9 +59,9 @@ RUN apk update		&& \
 		ca-certificates	   \
 		pcre
 
-COPY --from=0 /opt/nginx /opt/nginx
-COPY --from=0 /tmp/nginx-rtmp-module/stat.xsl /opt/nginx/conf/stat.xsl
-RUN rm /opt/nginx/conf/nginx.conf
+COPY --from=0 /opt/openresty /opt/openresty
+COPY --from=0 /tmp/nginx-rtmp-module/stat.xsl /opt/openresty/conf/stat.xsl
+RUN rm /opt/openresty/nginx/conf/nginx.conf
 ADD run.sh /
 
 EXPOSE 1935

@@ -1,6 +1,6 @@
 #!/bin/sh
 
-NGINX_CONFIG_FILE=/opt/nginx/conf/nginx.conf
+NGINX_CONFIG_FILE=/opt/openresty/nginx/conf/nginx.conf
 
 
 RTMP_CONNECTIONS=${RTMP_CONNECTIONS-1024}
@@ -135,5 +135,5 @@ else
 fi
 
 echo "Starting server..."
-/opt/nginx/sbin/nginx -g "daemon off;"
+/opt/openresty/sbin/openresty -g "daemon off;"
 
