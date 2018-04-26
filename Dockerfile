@@ -73,7 +73,7 @@ ENV \
 	NOTIFY_PLAY_DONE_URL=http://localhost:8080/on_notice \
 	NOTIFY_PUBLISH_DONE_URL=http://localhost:8080/on_notice \
 	NOTIFY_RECORD_DONE_URL=http://localhost:8080/on_notice \
-	NOTIFY_UPDATE_URL=http://localhost:8080/on_notice \
+	NOTIFY_UPDATE_URL=http://localhost:8080/on_notice
 
 CMD /run.sh
 
