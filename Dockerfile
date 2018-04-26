@@ -63,8 +63,17 @@ COPY --from=0 /tmp/nginx-rtmp-module/stat.xsl /opt/nginx/conf/stat.xsl
 RUN rm /opt/nginx/conf/nginx.conf
 ADD run.sh /
 
-EXPOSE 1935
-EXPOSE 8080
+EXPOSE 1935 8080
+
+ENV \
+	NOTIFY_PUBLISH_URL=http://localhost:8080/on_publish \
+	NOTIFY_CONNECT_URL=http://localhost:8080/on_notice \
+	NOTIFY_PLAY_URL=http://localhost:8080/on_notice \
+	NOTIFY_DONE_URL=http://localhost:8080/on_notice \
+	NOTIFY_PLAY_DONE_URL=http://localhost:8080/on_notice \
+	NOTIFY_PUBLISH_DONE_URL=http://localhost:8080/on_notice \
+	NOTIFY_RECORD_DONE_URL=http://localhost:8080/on_notice \
+	NOTIFY_UPDATE_URL=http://localhost:8080/on_notice \
 
 CMD /run.sh
 

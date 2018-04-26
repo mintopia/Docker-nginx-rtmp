@@ -46,6 +46,11 @@ http {
         location /on_publish {
             return  201;
         }
+        
+        location /on_notice {
+            return 200;
+        }
+
         location /stat {
             rtmp_stat all;
             rtmp_stat_stylesheet stat.xsl;
@@ -74,7 +79,7 @@ rtmp {
         listen 1935;
         chunk_size 4096;
         
-        on_connect ${NOTIFY_URL};
+        on_connect ${NOTIFY_CONNECT_URL};
 !EOF
 
 if [ "x${RTMP_PUSH_URLS}" = "x" ]; then
@@ -93,13 +98,13 @@ cat >>${NGINX_CONFIG_FILE} <<!EOF
         application ${STREAM_NAME} {
             live on;
             record off;
-            on_play ${NOTIFY_URL};
-            on_publish ${NOTIFY_URL};
-            on_done ${NOTIFY_URL};
-            on_play_done ${NOTIFY_URL};
-            on_publish_done ${NOTIFY_URL};
-            on_record_done ${NOTIFY_URL};
-            on_update ${NOTIFY_URL};
+            on_play ${NOTIFY_PLAY_URL};
+            on_publish ${NOTIFY_PUBLISH_URL};
+            on_done ${NOTIFY_DONE_URL};
+            on_play_done ${NOTIFY_PLAY_DONE_URL};
+            on_publish_done ${NOTIFY_PUBLISH_DONE_URL};
+            on_record_done ${NOTIFY_RECORD_DONE_URL};
+            on_update ${NOTIFY_UPDATE_URL};
 !EOF
 if [ "${HLS}" = "true" ]; then
 cat >>${NGINX_CONFIG_FILE} <<!EOF
